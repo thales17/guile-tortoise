@@ -16,15 +16,11 @@ FILE *start_plotter (const int width, const int height) {
 	}
 
 	output = fdopen(pipes[1], "w");
-	usleep(10000);	
 	return output;
 }
 
 void draw_line (FILE* output, double x1, double y1, double x2, double y2) {
-	printf("sdlplot: %f %f %f %f\n",
-		   x1, y1, x2, y2);
 	fprintf(output, "%f %f %f %f\n",
 			x1, y1, x2, y2);
 	fflush(output);
-	usleep(100000);
 }

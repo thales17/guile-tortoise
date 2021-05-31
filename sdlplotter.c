@@ -8,14 +8,12 @@
 #define WIDTH 500
 #define HEIGHT 500
 
-#define LINE_EVENT_CODE 1
-#define CLEAR_EVENT_CODE 2
+#define CLEAR_EVENT_CODE 1
 
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture *texture;
 
-double lineData[4] = { };
 Uint32 myEventType;
 char userInput[500];
 
@@ -28,7 +26,7 @@ int isValid (const char *input, void *userData) {
 	if (strcmp(input, "clear") == 0) {
 		return 1;
 	}
-	
+
 	while (doubleCount < 4) {
 		result = strtod(startPtr, &endPtr);
 		if (result == 0) {
@@ -45,8 +43,8 @@ int isValid (const char *input, void *userData) {
 }
 
 static int inputThread (void *ptr) {
-	double line[4];
 	while (1) {
+		double *line = calloc(4, sizeof(double));
 		promptUser("", isValid, userInput, line);
 		if (strcmp(userInput, "clear") == 0) {
 			SDL_Event event;
@@ -56,18 +54,12 @@ static int inputThread (void *ptr) {
 			SDL_PushEvent(&event);
 			continue;
 		}
-		/*		printf("x1: %f y1: %f x2: %f y2: %f\n",
-				line[0], line[1], line[2], line[3]);*/
-		lineData[0] = line[0];
-		lineData[1] = line[1];
-		lineData[2] = line[2];
-		lineData[3] = line[3];
 
 		SDL_Event event;
 		SDL_memset(&event, 0, sizeof(event));
 		event.type = myEventType;
-		event.user.code = LINE_EVENT_CODE;
-
+		event.user.code = 0;
+		event.user.data1 = line;
 		SDL_PushEvent(&event);
 	}
 }
@@ -105,13 +97,13 @@ int main (int argc, char **argv) {
 	if (texture == NULL) {
 		printf("Count not create texture: %s\n", SDL_GetError());
 		return 1;
-	}	
+	}
 
 	SDL_SetRenderTarget(renderer, texture);
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderTarget(renderer, NULL);
-	
+
 	thread = SDL_CreateThread(inputThread, "inputThread", (void *)NULL);
 	if (thread == NULL) {
 		printf("Coult not create thread: %s\n", SDL_GetError());
@@ -120,30 +112,32 @@ int main (int argc, char **argv) {
 		SDL_DetachThread(thread);
 	}
 
+	int count = 0;
 	while (1) {
 		SDL_Event e;
 		int quit = 0;
-		while (SDL_PollEvent(&e)) {
+		while (SDL_PollEvent(&e) == 1) {
 			if (e.type == SDL_QUIT) {
 				quit = 1;
 				break;
 			}
 			if (e.type == myEventType) {
 				if (e.user.code == CLEAR_EVENT_CODE) {
-					SDL_SetRenderTarget(renderer, texture);					
+					SDL_SetRenderTarget(renderer, texture);
 					SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 					SDL_RenderClear(renderer);
 					SDL_SetRenderTarget(renderer, NULL);
-				} else if (e.user.code == LINE_EVENT_CODE) {
+				} else {
+					double *lineData = (double *)e.user.data1;
 					int x1 = centerX + (int)(lineData[0] * xPixelsPerUnit);
 					int y1 = centerY + (int)(-1 * lineData[1] * yPixelsPerUnit);
 					int x2 = centerX + (int)(lineData[2] * xPixelsPerUnit);
 					int y2 = centerY + (int)(-1 * lineData[3] * yPixelsPerUnit);
-					printf("(%d, %d) (%d, %d)\n", x1, y1, x2, y2);
 					SDL_SetRenderTarget(renderer, texture);
 					SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
 					SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 					SDL_SetRenderTarget(renderer, NULL);
+					free(lineData);
 				}
 			}
 		}
