@@ -10,7 +10,7 @@ build: tortoise
 
 tortoise:
 	@mkdir -p bin/
-	@$(CC) -o bin/$@ tortoise.c gnuplot.c $(CFLAGS) $(GUILE_CFLAGS) -lm $(GUILE_LIBS)
+	@$(CC) -o bin/$@ tortoise.c sdlplot.c $(CFLAGS) $(GUILE_CFLAGS) -lm $(GUILE_LIBS)
 
 sdlplotter:
 	@mkdir -p bin/
