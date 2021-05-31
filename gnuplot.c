@@ -29,7 +29,7 @@ FILE *start_plotter (const int width, const int height) {
 	return output;
 }
 
-void draw_line (FILE* output, double x1, double x2, double y1, double y2) {
+void draw_line (FILE* output, double x1, double y1, double x2, double y2) {
 	fprintf(output, "plot [0:1] %f + %f * t, %f + %f * t notitle\n",
 			x1, x2 - x1, y1, y2 - y1);
 	fflush(output);

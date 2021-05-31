@@ -5,7 +5,8 @@
 #include <math.h>
 #include <libguile.h>
 
-#include "gnuplot.h"
+//#include "gnuplot.h"
+#include "sdlplot.h"
 
 static const int WIDTH = 10;
 static const int HEIGHT = 10;
