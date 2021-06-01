@@ -12,6 +12,10 @@ tortoise:
 	@mkdir -p bin/
 	@$(CC) -o bin/$@ tortoise.c sdlplot.c $(CFLAGS) $(GUILE_CFLAGS) -lm $(GUILE_LIBS)
 
+tortoise-gnuplot:
+	@mkdir -p bin/
+	@$(CC) -o bin/$@ tortoise.c gnuplot.c $(CFLAGS) $(GUILE_CFLAGS) -lm $(GUILE_LIBS)
+
 sdlplotter:
 	@mkdir -p bin/
 	@$(CC) -o bin/$@ sdlplotter.c $(COMMON_SRC) $(CFLAGS) $(SDL2_CFLAGS) $(SDL2_LIBS)

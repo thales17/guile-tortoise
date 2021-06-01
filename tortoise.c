@@ -5,8 +5,7 @@
 #include <math.h>
 #include <libguile.h>
 
-//#include "gnuplot.h"
-#include "sdlplot.h"
+#include "plot.h"
 
 static const int WIDTH = 10;
 static const int HEIGHT = 10;
@@ -19,6 +18,7 @@ static int pendown;
 
 static void *register_functions (void *);
 static SCM tortoise_reset ();
+static SCM tortoise_center ();
 static SCM tortoise_pendown ();
 static SCM tortoise_penup ();
 static SCM tortoise_turn (SCM);
@@ -36,6 +36,7 @@ int main (int argc, char **argv) {
 
 static void *register_functions (void *data) {
 	scm_c_define_gsubr("tortoise-reset", 0, 0, 0, &tortoise_reset);
+	scm_c_define_gsubr("tortoise-center", 0, 0, 0, &tortoise_center);
 	scm_c_define_gsubr("tortoise-penup", 0, 0, 0, &tortoise_penup);
 	scm_c_define_gsubr("tortoise-pendown", 0, 0, 0, &tortoise_pendown);
 	scm_c_define_gsubr("tortoise-turn", 1, 0, 0, &tortoise_turn);
@@ -44,15 +45,20 @@ static void *register_functions (void *data) {
 }
 
 static SCM tortoise_reset () {
+	fprintf(global_output, "clear\n");
+	fflush(global_output);
+
+	return tortoise_center();
+}
+
+static SCM tortoise_center () {
 	x = y = 0.0;
 	direction = 0.0;
 	pendown = 1;
 
-	fprintf(global_output, "clear\n");
-	fflush(global_output);
-
 	return SCM_UNSPECIFIED;
 }
+
 
 static SCM tortoise_pendown () {
 	SCM result = scm_from_bool(pendown);
