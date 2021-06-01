@@ -7,6 +7,7 @@ I started out following the code in the [guile tutorial](https://www.gnu.org/sof
 - Once it is running you get a scheme REPL where you can input (tortoise-*) commands.
 - Alternativly libguile supports running a scheme file as an argument, i.e. `./tortoise ../test_pattern.scm`
 - Quitting the repl will not close the sdlplotter or gnuplot but they should exit if you just close the windows.
+- The coordinates system is -10 to 10 on both axes and the tortoise starts in the center
 
 ## Ubuntu Packages used to develop and build this
 - `build-essential`
@@ -14,6 +15,20 @@ I started out following the code in the [guile tutorial](https://www.gnu.org/sof
 - `guile-3.0-dev`
 - `gnuplot`
 - `sdl2-dev`
+
+## OpenBSD
+### Packages
+- `gnuplot`
+- `guile2`
+- `gmake`
+- `sdl2`
+
+### Building
+- `gmake sdlplotter tortoise`
+
+### Running
+- `cd bin/`
+- `./tortoise ../test_pattern.scm`
 
 ## Showcase
 - ![test pattern](images/sdlplotter_testpattern.png)

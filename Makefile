@@ -1,10 +1,10 @@
-CFLAGS =
-GUILE_CFLAGS = `guile-config compile`
+CFLAGS = -g
+GUILE_CFLAGS = `guile-config2.2 compile`
 SDL2_CFLAGS = `sdl2-config --cflags`
-GUILE_LIBS = `guile-config link`
+GUILE_LIBS = `guile-config2.2 link`
 SDL2_LIBS = `sdl2-config --libs`
 COMMON_SRC=$(wildcard common/*.c)
-CC = gcc
+CC = cc
 
 build: tortoise
 

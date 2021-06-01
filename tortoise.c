@@ -59,7 +59,6 @@ static SCM tortoise_center () {
 	return SCM_UNSPECIFIED;
 }
 
-
 static SCM tortoise_pendown () {
 	SCM result = scm_from_bool(pendown);
 
