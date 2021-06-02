@@ -13,7 +13,7 @@ FILE *start_plotter (const int width, const int height) {
 	printf("errno: %d\n", errno);
 	if (!pid) {
 		dup2(pipes[0], STDIN_FILENO);
-		execlp("./sdlplotter", NULL);
+		execlp("./sdlplotter", "./sdlplotter", NULL);
 		return NULL;
 	}
 

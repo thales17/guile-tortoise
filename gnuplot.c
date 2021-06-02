@@ -11,7 +11,7 @@ FILE *start_plotter (const int width, const int height) {
 
 	if (!pid) {
 		dup2(pipes[0], STDIN_FILENO);
-		execlp("gnuplot", NULL);
+		execlp("gnuplot", "gnuplot", NULL);
 		return NULL;
 	}
 

@@ -1,10 +1,16 @@
 CFLAGS = -g
-GUILE_CFLAGS = `guile-config2.2 compile`
+GUILE_CFLAGS = `guile-config compile`
 SDL2_CFLAGS = `sdl2-config --cflags`
-GUILE_LIBS = `guile-config2.2 link`
+GUILE_LIBS = `guile-config link`
 SDL2_LIBS = `sdl2-config --libs`
 COMMON_SRC=$(wildcard common/*.c)
 CC = cc
+
+UNAME=$(shell uname -s)
+ifeq ($(UNAME), OpenBSD)
+	GUILE_CFLAGS = `guile-config2.2 compile`
+	GUILE_LIBS = `guile-config2.2 link`
+endif
 
 build: tortoise
 
