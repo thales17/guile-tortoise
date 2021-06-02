@@ -9,8 +9,6 @@ FILE *start_plotter (const int width, const int height) {
 
 	pipe(pipes);
 	pid = fork();
-	printf("pid from fork: %d\n", pid);
-	printf("errno: %d\n", errno);
 	if (!pid) {
 		dup2(pipes[0], STDIN_FILENO);
 		execlp("./sdlplotter", "./sdlplotter", NULL);
