@@ -7,6 +7,7 @@
 	(tortoise-turn 90)
 	(tortoise-pendown)
 	(tortoise-move 0.01)
+	(usleep 1000)
 	(if (= a 0)
 		0
 		(iter (- a 1) (+ r 0.001))))
