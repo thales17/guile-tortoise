@@ -88,14 +88,14 @@ int main (int argc, char **argv) {
 								  SDL_RENDERER_ACCELERATED |
 								  SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == NULL) {
-		printf("Count not create renderer: %s\n", SDL_GetError());
+		printf("Could not create renderer: %s\n", SDL_GetError());
 		return 1;
 	}
 
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
 								SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
 	if (texture == NULL) {
-		printf("Count not create texture: %s\n", SDL_GetError());
+		printf("Could not create texture: %s\n", SDL_GetError());
 		return 1;
 	}
 
@@ -106,7 +106,7 @@ int main (int argc, char **argv) {
 
 	thread = SDL_CreateThread(inputThread, "inputThread", (void *)NULL);
 	if (thread == NULL) {
-		printf("Coult not create thread: %s\n", SDL_GetError());
+		printf("Could not create thread: %s\n", SDL_GetError());
 		return 1;
 	} else {
 		SDL_DetachThread(thread);
